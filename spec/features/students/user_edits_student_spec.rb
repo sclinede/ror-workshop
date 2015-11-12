@@ -30,6 +30,27 @@ feature 'User edits student' do
     expect(page).to have_content "can't be blank"
   end
 
+  scenario 'with wrong birthdate' do
+    fill_in 'Birthdate', with: '198237129376'
+    click_button 'Update Student'
+    expect(page).to have_content 'date provided was invalid'
+  end
+
+  scenario 'with valid birthdate' do
+    visit report_subjects_path
+    expect(page).to have_no_content 'Jan Abacki'
+
+    visit students_path
+    find(:xpath, "//a[@title='edit']").click
+    find("input[type='checkbox']").set(true)
+    fill_in 'Birthdate', with: '1993-01-12'
+    click_button 'Update Student'
+
+    visit report_subjects_path
+    expect(page).to have_content 'Jan Abacki'
+    expect(page).to have_content '1993-01_12'
+  end
+
   scenario 'by assigning subject item' do
     visit report_subjects_path
     expect(page).to have_no_content 'Jan Abacki'

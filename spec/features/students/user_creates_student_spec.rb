@@ -8,6 +8,14 @@ feature 'User creates student' do
     click_on 'Add new one'
   end
 
+  scenario 'with wrong birthdate' do
+    fill_in 'First name', with: 'Adrian'
+    fill_in 'Last name', with: 'Nowacki'
+    fill_in 'Birthdate', with: '198237129376'
+    click_button 'Create Student'
+    expect(page).to have_content 'date provided was invalid'
+  end
+
   scenario 'with valid input' do
     fill_in 'First name', with: 'Adrian'
     fill_in 'Last name', with: 'Nowacki'
