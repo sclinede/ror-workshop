@@ -1,27 +1,51 @@
 puts "Seeds: start"
 TEACHER_TITLES = %w(Dr. Prof. TA)
-User.create!(email: 'admin@admin.com', password: 'adminadmin')
+SUBJECT_TITLES = [
+  "Deleniti excepturi amet",
+  "Iusto eligendi alias ut",
+  "Vitae omnis voluptatum fugit",
+  "Non inventore occaecati",
+  "Tempora dolor voluptas"
+]
+FIRST_NAMES = %w(
+  Samanta Autumn Gilda
+  Kyler Bethany Leatha
+  Pink Tania Idella
+  Blaze Matteo Ferne
+  Duncan Cordie Viola
+  Otilia Lori Elfrieda
+  Clarissa Rogers
+)
+LAST_NAMES = %w(
+  Wilderman Witting Beahan Boyer
+  Runolfsson Bayer Bechtelar Beatty
+  Bradtke Ondricka Marquardt Schaden
+  Satterfield Donnelly Goodwin Luettgen
+  Bahringer Hirthe Rempel Anderson
+)
 
-30.times do
+User.create!(email: 'admin@admin.com', password: 'adminadmin') if User.count == 0
+
+3.times do
   Teacher.create!(
-    first_name: Faker::Name.first_name,
-    last_name: Faker::Name.last_name,
+    first_name: FIRST_NAMES.sample,
+    last_name: LAST_NAMES.sample,
     academic_title: TEACHER_TITLES.sample
   )
 end
 
 teachers = Teacher.all
-20.times do
+5.times do
   SubjectItem.create!(
-    title: Faker::Lorem.sentence,
+    title: SUBJECT_TITLES.sample,
     teacher: teachers.sample
   )
 end
 
-40.times do
+25.times do
   Student.create!(
-    first_name: Faker::Name.first_name,
-    last_name: Faker::Name.last_name
+    first_name: FIRST_NAMES.sample,
+    last_name: LAST_NAMES.sample
   )
 end
 
