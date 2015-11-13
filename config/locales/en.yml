@@ -4,6 +4,7 @@ en:
     teachers: Teachers
     reports: Reports
     reports_subjects: Subjects
+    student_payments: Payments
     logout: Logout
     signin: Sign in
     signup: Sign up
@@ -34,6 +35,11 @@ en:
       full_name: Full name
       avg_notes: Notes avarange
       birthdate: Date of birth
+  student_payments:
+    columns:
+      full_name: Full name
+      payment_date: Date of payment
+      due_date: Payment due date
   activerecord:
     errors:
       messages:

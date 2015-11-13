@@ -11,5 +11,7 @@ Rails.application.routes.draw do
     get :subjects
   end
 
+  resources :student_payments, only: :index
+
   root to: "visitors#index"
 end

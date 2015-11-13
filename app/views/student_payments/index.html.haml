@@ -1,0 +1,9 @@
+- breadcrumb :student_payments
+%table#payments.display.responsive.no-wrap
+  %thead
+    %tr
+      %th= t('student_payments.columns.full_name')
+      %th= t('student_payments.columns.payment_date')
+      %th= t('student_payments.columns.due_date')
+  %tbody
+    = render student_payments

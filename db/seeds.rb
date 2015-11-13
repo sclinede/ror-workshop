@@ -24,42 +24,61 @@ LAST_NAMES = %w(
   Bahringer Hirthe Rempel Anderson
 )
 
-User.create!(email: 'admin@admin.com', password: 'adminadmin') if User.count == 0
+User.create!(email: 'admin@admin.com', password: 'adminadmin') if User.count.zero?
 
-3.times do
-  Teacher.create!(
-    first_name: FIRST_NAMES.sample,
-    last_name: LAST_NAMES.sample,
-    academic_title: TEACHER_TITLES.sample
-  )
+if Teacher.count.zero?
+  3.times do
+    Teacher.create!(
+      first_name: FIRST_NAMES.sample,
+      last_name: LAST_NAMES.sample,
+      academic_title: TEACHER_TITLES.sample
+    )
+  end
 end
 
-teachers = Teacher.all
-5.times do
-  SubjectItem.create!(
-    title: SUBJECT_TITLES.sample,
-    teacher: teachers.sample
-  )
-end
-
-25.times do
-  Student.create!(
-    first_name: FIRST_NAMES.sample,
-    last_name: LAST_NAMES.sample
-  )
+if SubjectItem.count.zero?
+  teachers = Teacher.all
+  5.times do
+    SubjectItem.create!(
+      title: SUBJECT_TITLES.sample,
+      teacher: teachers.sample
+    )
+  end
 end
 
 students = Student.all
-SubjectItem.all.each do |subject_item|
-  subject_item.students << students.sample(rand(1..4))
+
+if students.empty?
+  25.times do
+    Student.create!(
+      first_name: FIRST_NAMES.sample,
+      last_name: LAST_NAMES.sample
+    )
+  end
+
+
+  SubjectItem.all.each do |subject_item|
+    subject_item.students << students.sample(rand(1..4))
+  end
+
+  SubjectItem.all.each do |subject_item|
+    subject_item.students.each do |student|
+      rand(1..5).times do
+        subject_item.subject_item_notes << SubjectItemNote.create(student: student,
+                                                                  subject_item: subject_item,
+                                                                  value: rand(1..6))
+      end
+    end
+  end
 end
 
-SubjectItem.all.each do |subject_item|
-  subject_item.students.each do |student|
-    rand(1..5).times do
-      subject_item.subject_item_notes << SubjectItemNote.create(student: student,
-                                                                subject_item: subject_item,
-                                                                value: rand(1..6))
+if StudentPayment.count.zero?
+  5.times do
+    student = students.sample
+    1.upto(12) do |i|
+      due_date = Date.new(2015, i, 25)
+      payment_date = (rand(0..1) > 0) ? Date.new(2015, i, rand(1..24)) : nil
+      student.payments.create(payment_date: payment_date, due_date: due_date)
     end
   end
 end
